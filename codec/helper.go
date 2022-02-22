@@ -938,8 +938,12 @@ func (x *basicHandleRuntimeState) setExt(rt reflect.Type, tag uint64, ext Ext) (
 		rk = rt.Kind()
 	}
 
-	if rt.PkgPath() == "" || rk == reflect.Interface { // || rk == reflect.Ptr {
+	if rk == reflect.Interface { // || rk == reflect.Ptr {
 		return fmt.Errorf("codec.Handle.SetExt: Takes named type, not a pointer or interface: %v", rt)
+	}
+
+	if rt.PkgPath() == "" {
+		//should we skip primitive/builtin types?
 	}
 
 	rtid := rt2id(rt)
